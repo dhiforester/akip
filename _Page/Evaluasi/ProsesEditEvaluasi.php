@@ -1,0 +1,57 @@
+<?php
+    //Koneksi
+    include "../../_Config/Connection.php";
+    include "../../_Config/Session.php";
+    include "../../_Config/Function.php";
+    //Time Zone
+    date_default_timezone_set('Asia/Jakarta');
+    //Time Now Tmp
+    $now=date('Y-m-d H:i:s');
+    //Validasi id_evaluasi tidak boleh kosong
+    if(empty($_POST['id_evaluasi'])){
+        echo '<small class="text-danger">ID tidak boleh kosong</small>';
+    }else{
+        if(empty($_POST['periode'])){
+            echo '<small class="text-danger">Periode tidak boleh kosong</small>';
+        }else{
+            //Validasi periode_awal tidak boleh kosong
+            if(empty($_POST['periode_awal'])){
+                echo '<small class="text-danger">Periode Awal tidak boleh kosong</small>';
+            }else{
+                //Validasi periode_akhir tidak boleh kosong
+                if(empty($_POST['periode_akhir'])){
+                    echo '<small class="text-danger">Periode Akhir tidak boleh kosong</small>';
+                }else{
+                    $id_evaluasi=$_POST['id_evaluasi'];
+                    $periode=$_POST['periode'];
+                    $periode_awal=$_POST['periode_awal'];
+                    $periode_akhir=$_POST['periode_akhir'];
+                    if($periode_akhir<$periode_awal){
+                        echo '<small class="text-danger">Periode awal tidak boleh lebih besar dari periode akhir</small>';
+                    }else{
+                        if(strlen($periode)>20) {
+                            echo '<small class="text-danger">Judul Periode Evaluasi Tidak Boleh Lebih Dari 20 Karakter</small>';
+                        }else{
+                            $UpdateAkses = mysqli_query($Conn,"UPDATE evaluasi SET 
+                                periode='$periode',
+                                periode_awal='$periode_awal',
+                                periode_akhir='$periode_akhir',
+                                updatetime='$now'
+                            WHERE id_evaluasi='$id_evaluasi'") or die(mysqli_error($Conn)); 
+                            if($UpdateAkses){
+                                $kategori_log="Evaluasi";
+                                $deskripsi_log="Edit Evaluasi Baru Berhasil";
+                                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                if($InputLog=="Success"){
+                                    echo '<small class="text-success" id="NotifikasiEditEvaluasiBerhasil">Success</small>';
+                                }else{
+                                    echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan Log</small>';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+?>
