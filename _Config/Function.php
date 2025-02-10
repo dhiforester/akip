@@ -267,5 +267,36 @@
         return $NamaFile;
     }
     
+    function validateUploadedFile($file,$size) {
+        // Tipe file yang diperbolehkan
+        $allowedMimeTypes = [
+            'image/jpeg', // Untuk file .jpg dan .jpeg
+            'image/png',  // Untuk file .png
+            'image/gif',  // Untuk file .gif
+        ];
     
+        // Maksimal ukuran file (5MB, misalnya)
+        $maxFileSize = $size * 1024 * 1024; // 5MB dalam byte
+    
+        // Periksa apakah file diunggah tanpa error
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return "Terjadi kesalahan saat mengunggah file.";
+        }
+    
+        // Periksa ukuran file
+        if ($file['size'] > $maxFileSize) {
+            return "Ukuran file terlalu besar. Maksimal 5MB.";
+        }
+    
+        // Dapatkan MIME type file
+        $fileMimeType = mime_content_type($file['tmp_name']);
+    
+        // Validasi tipe MIME
+        if (!in_array($fileMimeType, $allowedMimeTypes)) {
+            return "Tipe file tidak valid. Hanya JPG, JPEG, PNG, dan GIF yang diperbolehkan.";
+        }
+    
+        // Jika semua validasi lolos
+        return true;
+    }
 ?>

@@ -26,24 +26,6 @@
             echo '  </ol>';
             echo '</nav>';
         }
-        if($_GET['Page']=="FiturAkses"){
-            echo '<h1><a href=""><i class="bi bi-key"></i> Fitur Aplikasi</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Fitur Aplikasi</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="EntitasAkses"){
-            echo '<h1><a href=""><i class="bi bi-key"></i> Entitas Ases</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Entitas Akses</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
         if($_GET['Page']=="Akses"){
             echo '<h1><a href=""><i class="bi bi-key"></i> Daftar Pengguna</a></h1>';
             echo '<nav>';
@@ -108,11 +90,11 @@
             echo '</nav>';
         }
         if($_GET['Page']=="Wilayah"){
-            echo '<h1><a href=""><i class="bi bi-google"></i> Wilayah Administrasi</a></h1>';
+            echo '<h1><a href=""><i class="bi bi-map"></i> Regional Data</a></h1>';
             echo '<nav>';
             echo '  <ol class="breadcrumb">';
             echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Wilayah Administrasi</li>';
+            echo '      <li class="breadcrumb-item active">Regional Data</li>';
             echo '  </ol>';
             echo '</nav>';
         }

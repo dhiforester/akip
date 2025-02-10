@@ -44,18 +44,22 @@
 
                 //Update Token
                 $stmt = mysqli_prepare($Conn, "UPDATE akses_token SET timestamp_expired=? WHERE akses_token=?");
-                mysqli_stmt_bind_param($stmt, "ss", $timestamp_expired, $SessionIdAkses);
+                mysqli_stmt_bind_param($stmt, "ss", $timestamp_expired, $token);
                 $update_result = mysqli_stmt_execute($stmt);
                 if($update_result){
                     //Apabila Proses Perpanjang Berhasil
                     $SessionIdOpd=$DataAkses['id_opd'];
                     $SessionNama=$DataAkses['nama'];
+                    $SessionEmail=$DataAkses['email'];
+                    $SessionKontak=$DataAkses['kontak'];
                     $SessionAkses=$DataAkses['akses'];
                     if(empty($DataAkses['foto'])){
                         $SessionGambar="No-Image.png";
                     }else{
                         $SessionGambar=$DataAkses['foto'];
                     }
+                    $SessionAksesCreat=$DataAkses['timestamp_creat'];
+                    $session_timestamp_expired=$timestamp_expired;
                 }else{
                     $SessionIdAkses="";
                 }

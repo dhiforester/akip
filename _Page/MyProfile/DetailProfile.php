@@ -9,76 +9,29 @@
             </div>
             <div class="col-md-10 text-left">
                 <div class="row mt-2"> 
-                    <div class="col col-md-12"><dt>1. Identitas Pengguna</dt></div>
+                    <div class="col-6 col-md-3"><small class="credit">Nama</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$SessionNama"; ?></small></div>
                 </div>
                 <div class="row mt-2"> 
-                    <div class="col col-md-6"><small class="credit">Nama Lengkap</small></div>
-                    <div class="col col-md-6"><small class="credit"><?php echo "$SessionNama"; ?></small></div>
+                    <div class="col-6 col-md-3"><small class="credit">Email</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$SessionEmail"; ?></small></div>
                 </div>
                 <div class="row mt-2"> 
-                    <div class="col col-md-6"><small class="credit">Email Akses</small></div>
-                    <div class="col col-md-6"><small class="credit"><?php echo "$SessionEmail"; ?></small></div>
-                </div>
-                <div class="row mt-2"> 
-                    <div class="col col-md-6"><small class="credit">Kontak Akses</small></div>
-                    <div class="col col-md-6"><small class="credit"><?php echo "$SessionKontak"; ?></small></div>
+                    <div class="col-6 col-md-3"><small class="credit">Kontak</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$SessionKontak"; ?></small></div>
                 </div>
                 <div class="row mt-2 border-1 border-black"> 
-                    <div class="col col-md-6"><small class="credit">Level Akses</small></div>
-                    <div class="col col-md-6"><small class="credit"><?php echo "$SessionAkses"; ?></small></div>
+                    <div class="col-6 col-md-3"><small class="credit">Tgl.Daftar</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$SessionAksesCreat"; ?></small></div>
                 </div>
-                <?php 
-                    if($SessionAkses=="Kecamatan"){ 
-                        $NamaPropinsi=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'propinsi');
-                        $NamaKabupaten=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'kabupaten');
-                        $NamaKecamatan=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'kecamatan');
-                ?>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-12"><dt>2. Otoritas Pengguna</dt></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Provinsi</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaPropinsi"; ?></small></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Kabupaten/Kota</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaKabupaten"; ?></small></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Kecamatan</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaKecamatan"; ?></small></div>
-                    </div>
-                <?php } ?>
-                <?php 
-                    if($SessionAkses=="Desa"){ 
-                        $NamaPropinsi=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'propinsi');
-                        $NamaKabupaten=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'kabupaten');
-                        $NamaKecamatan=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'kecamatan');
-                        $NamaDesa=getDataDetail($Conn,'wilayah','id_wilayah',$SessionIdWilayah,'desa');
-                ?>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-12"><dt>2. Otoritas Pengguna</dt></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Provinsi</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaPropinsi"; ?></small></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Kabupaten/Kota</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaKabupaten"; ?></small></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Kecamatan</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaKecamatan"; ?></small></div>
-                    </div>
-                    <div class="row mt-2"> 
-                        <div class="col col-md-6"><small class="credit">Desa</small></div>
-                        <div class="col col-md-6"><small class="credit"><?php echo "$NamaDesa"; ?></small></div>
-                    </div>
-                <?php } ?>
-            </div>
-            <div class="col-md-5 text-left">
-                
+                <div class="row mt-2 border-1 border-black"> 
+                    <div class="col-6 col-md-3"><small class="credit">Akses</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$SessionAkses"; ?></small></div>
+                </div>
+                <div class="row mt-2 border-1 border-black"> 
+                    <div class="col-6 col-md-3"><small class="credit">Session Expired</small></div>
+                    <div class="col-6 col-md-9"><small class="credit"><?php echo "$session_timestamp_expired"; ?></small></div>
+                </div>
             </div>
         </div>
     </div>

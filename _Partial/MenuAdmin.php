@@ -53,11 +53,11 @@
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu!=="Wilayah"){echo "collapsed";} ?>" href="index.php?Page=Wilayah">
                 <i class="bi bi-map"></i>
-                <span>Wilayah Administrasi</span>
+                <span>Regional Data</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu!=="Wilayah"){echo "collapsed";} ?>" href="index.php?Page=Wilayah">
+            <a class="nav-link <?php if($PageMenu!=="Opd"){echo "collapsed";} ?>" href="index.php?Page=Opd">
                 <i class="bi bi-google"></i>
                 <span>Daftar OPD</span>
             </a>

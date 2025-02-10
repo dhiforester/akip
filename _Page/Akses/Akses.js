@@ -1,23 +1,25 @@
-//Fungsi Menampilkan Data
-function filterAndLoadTable() {
+//Fungsi Menampilkan Data Akses
+function showDataAkses(height) {
     var ProsesFilter = $('#ProsesFilter').serialize();
-    $('#MenampilkanTabelAkses').html('<div class="row"><div class="col-md-12 text-center">Loading...</div></div>');
+    $('#showAkses').show();
+    $('#table_akses').html('<tr><td class="text-center">Loading...</td></tr>');
     $.ajax({
         type    : 'POST',
         url     : '_Page/Akses/TabelAkses.php',
         data    : ProsesFilter,
         success: function(data) {
-            $('#MenampilkanTabelAkses').html(data);
+            $('#table_akses').html(data);
+            $('html, body').animate({ scrollTop: height }, 300);
         }
     });
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
-    filterAndLoadTable();
+    showDataAkses();
 });
 //Filter Data
 $('#ProsesFilter').submit(function(){
-    filterAndLoadTable();
+    showDataAkses();
     $('#ModalFilter').modal('hide');
 });
 $('#KeywordBy').change(function(){

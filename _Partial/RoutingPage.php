@@ -2,6 +2,9 @@
     //Index Halaman
     $page_arry=[
         "Dashboard"=>"_Page/Dashboard/Dashboard.php",
+        "MyProfile"=>"_Page/MyProfile/MyProfile.php",
+        "Akses"=>"_Page/Akses/Akses.php",
+        "Wilayah"=>"_Page/RegionalData/RegionalData.php",
         "Help"=>"_Page/Help/Help.php",
     ];
 

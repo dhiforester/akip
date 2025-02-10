@@ -43,14 +43,6 @@
                                                         <i class="bi bi-eye" id="eyeIcon"></i>
                                                     </span>
                                                 </div>
-                                                <small class="credit">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="Tampilkan" id="TampilkanPassword2" name="TampilkanPassword2">
-                                                        <label class="form-check-label" for="TampilkanPassword2">
-                                                            Tampilkan Password
-                                                        </label>
-                                                    </div>
-                                                </small>
                                             </div>
                                             <div class="col-12">
                                                 <label for="captcha" class="form-label">
@@ -92,7 +84,6 @@
         <?php
             include "_Partial/BackToTop.php";
             include "_Partial/FooterJs.php";
-            include "_Partial/RoutingSwal.php";
         ?>
         <script>
             //Untuk menampilkan password

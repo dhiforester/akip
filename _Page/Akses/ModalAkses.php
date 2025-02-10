@@ -113,8 +113,7 @@
                                 <option value="Admin">Admin</option>
                                 <option value="Provinsi">Provinsi</option>
                                 <option value="Kabupaten">Kabupaten/Kota</option>
-                                <option value="Kecamatan">Kecamatan</option>
-                                <option value="Desa">Desa/Kelurahan</option>
+                                <option value="OPD">OPD</option>
                             </select>
                         </div>
                     </div>

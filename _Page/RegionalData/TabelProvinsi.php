@@ -3,124 +3,114 @@
     include "../../_Config/Connection.php";
     include "../../_Config/Function.php";
     include "../../_Config/Session.php";
-    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM wilayah WHERE kategori='Propinsi'"));
-    if(empty($jml_data)){
-        echo '<div class="row mb-3">';
-        echo '  <div class="col-md-12">';
-        echo '      <div class="card">';
-        echo '          <div class="card-body text-center text-danger">';
-        echo '              Data Wilayah Provinsi Tidak Ada';
-        echo '          </div>';
-        echo '      </div>';
-        echo '  </div>';
-        echo '</div>';
+    $page_count =0;
+    $page =1;
+    if(empty($SessionIdAkses)){
+        echo '
+            <tr>
+                <td colspan="5" class="text-center">
+                    <small class="text-danger">Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
+                </td>
+            </tr>
+        ';
     }else{
-        echo '<div class="row mb-3">';
-        echo '  <div class="col-md-12" id="InformationWilayah">';
-        echo '  </div>';
-        echo '</div>';
-        $no = 1;
-        //KONDISI PENGATURAN MASING FILTER
-        $query = mysqli_query($Conn, "SELECT*FROM wilayah WHERE kategori='Propinsi' ORDER BY propinsi ASC");
-        while ($data = mysqli_fetch_array($query)) {
-            $id_wilayah= $data['id_wilayah'];
-            $kategori= $data['kategori'];
-            $propinsi= $data['propinsi'];
-            //Jumlah Kabupaten
-            $JumlahKabupaten = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM wilayah WHERE kategori='Kabupaten' AND propinsi='$propinsi'"));
-    ?>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <b class="card-title">
-                            <a href="javascript:void(0);" id="NamaProvinsi<?php echo "$id_wilayah"; ?>" class="text-info ShowKabupaten" value="<?php echo "$id_wilayah"; ?>" show="true">
-                                <?php echo "$no. $propinsi"; ?>
+        //Limit
+        if(empty($_POST['limit'])){
+            $limit=10;
+        }else{
+            $limit=$_POST['limit'];
+        }
+
+        //Limit
+        if(empty($_POST['page'])){
+            $page=1;
+        }else{
+            $page=$_POST['page'];
+        }
+        $position = ($page > 1) ? ($page - 1) * $limit : 0;
+        //Hitung Jumlah Data
+        if(empty($_POST['keyword'])){
+            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_provinsi FROM wilayah_provinsi"));
+        }else{
+            $keyword=$_POST['keyword'];
+            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_provinsi FROM wilayah_provinsi WHERE provinsi like '%$keyword%'"));
+        }
+        if(empty($jml_data)){
+            echo '
+                <tr>
+                    <td colspan="5" class="text-center">
+                        <small class="text-danger">Tidak Ada Data Yang Ditemukan</small>
+                    </td>
+                </tr>
+            ';
+        }else{
+            // Calculate Page Count
+            $page_count = ceil($jml_data / $limit);
+            $no = 1+$position;
+            //KONDISI PENGATURAN MASING FILTER
+            if(empty($_POST['keyword'])){
+                $query = mysqli_query($Conn, "SELECT id_provinsi, provinsi FROM wilayah_provinsi ORDER BY provinsi ASC LIMIT $position, $limit");
+            }else{
+                $keyword=$_POST['keyword'];
+                $query = mysqli_query($Conn, "SELECT id_provinsi, provinsi FROM wilayah_provinsi WHERE provinsi like '%$keyword%' ORDER BY provinsi ASC LIMIT $position, $limit");
+            }
+            while ($data = mysqli_fetch_array($query)) {
+                $id_provinsi= $data['id_provinsi'];
+                $provinsi= $data['provinsi'];
+                //Jumlah Kabupaten
+                $JumlahKabupaten = mysqli_num_rows(mysqli_query($Conn, "SELECT id_kabkot FROM wilayah_kabkot WHERE id_provinsi='$id_provinsi'"));
+                $JumlahOpd = mysqli_num_rows(mysqli_query($Conn, "SELECT id_opd FROM opd WHERE id_provinsi='$id_provinsi'"));
+                echo '
+                    <tr>
+                        <td><small>'.$no.'</small></td>
+                        <td>
+                            <a href="javascript:void(0);" class="show_tabel_kabupaten" data-id="'.$id_provinsi.'">
+                                <small>'.$provinsi.'</small>
                             </a>
-                        </b>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-md-4">ID Provinsi</div>
-                            <div class="col-md-8">
-                                <code class="text text-grayish"><?php echo "$id_wilayah"; ?></code>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-4">Jumlah Kabupaten</div>
-                            <div class="col-md-8">
-                                <code class="text text-grayish"><?php echo "$JumlahKabupaten Kabupaten"; ?></code>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12" id="TampilkanDataKabupatenByProvinsi<?php echo "$id_wilayah"; ?>"></div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a class="btn btn-sm btn-outline-black" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots"></i> Option
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                            <li class="dropdown-header text-start">
-                                <h6>Option</h6>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahKabupatenKota" data-id="<?php echo "$id_wilayah"; ?>">
-                                    <i class="bi bi-plus"></i> Tambah Kabupaten/Kota
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEditPropinsi" data-id="<?php echo "$id_wilayah"; ?>">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapusPropinsi" data-id="<?php echo "$id_wilayah"; ?>">
-                                    <i class="bi bi-x"></i> Hapus
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDownloadKabupaten" data-id="<?php echo "$id_wilayah"; ?>">
-                                    <i class="bi bi-download"></i> Download Kabupaten
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-<?php
-            $no++; 
+                        </td>
+                        <td><small>'.$JumlahKabupaten.'</small></td>
+                        <td><small>'.$JumlahOpd.'</small></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-floating btn-outline-dark" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEditProvinsi" data-id="'.$id_provinsi.'" data-value="'.$provinsi.'">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapusProvinsi" data-id="'.$id_provinsi.'" data-value="'.$provinsi.'">
+                                        <i class="bi bi-trash"></i> Hapus
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                ';
+                $no++; 
+            }
         }
     }
 ?>
 <script>
-    //Ketika KeywordBy Diubah
-    $('.ShowKabupaten').click(function(){
-        var id_wilayah = $(this).attr('value');
-        var show = $(this).attr('show');
-        if(show=="true"){
-            $('#TampilkanDataKabupatenByProvinsi'+id_wilayah).html('Loading...');
-            $.ajax({
-                type 	    : 'POST',
-                url 	    : '_Page/RegionalData/TabelKabupaten.php',
-                data 	    :  {id_wilayah: id_wilayah},
-                success     : function(data){
-                    $('#TampilkanDataKabupatenByProvinsi'+id_wilayah).html(data);
-                    //Remove Class
-                    $('#NamaProvinsi'+id_wilayah).removeClass('text-info');
-                    $('#NamaProvinsi'+id_wilayah).addClass('text-primary');
-                    //Merubah Nilai Atribut Show
-                    $('#NamaProvinsi'+id_wilayah).attr('show', 'false');
-                }
-            });
-        }else{
-            $('#TampilkanDataKabupatenByProvinsi'+id_wilayah).html("");
-            //Remove Class
-            $('#NamaProvinsi'+id_wilayah).removeClass('text-primary');
-            $('#NamaProvinsi'+id_wilayah).addClass('text-info');
-            //Merubah Nilai Atribut Show
-            $('#NamaProvinsi'+id_wilayah).attr('show', 'true');
-        }
-    });
+    //Creat Javascript Variabel
+    var page_count="<?php echo $page_count; ?>";
+    var curent_page="<?php echo $page; ?>";
+    
+    //Put Into Pagging Element
+    $('#page_info_provinsi').html('Page '+curent_page+' Of '+page_count+'');
+    
+    //Set Pagging Button
+    if(curent_page==1){
+        $('#prev_button_provinsi').prop('disabled', true);
+    }else{
+        $('#prev_button_provinsi').prop('disabled', false);
+    }
+    if(page_count<=curent_page){
+        $('#next_button_provinsi').prop('disabled', true);
+    }else{
+        $('#next_button_provinsi').prop('disabled', false);
+    }
 </script>
