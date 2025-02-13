@@ -1,0 +1,16 @@
+[
+    {
+        "nama" : "Lampiran 1",
+        "keterangan" : "Dokumen Pedoman Perencanaan",
+        "type" : ["image/jpg", "image/jpeg", "image/png", "aplication/pdf"],
+        "size_max" : "2097152",
+        "mandatory" : true
+    },
+    {
+        "nama" : "Lampiran 2",
+        "keterangan" : "Dokumen Pedoman Anggaran",
+        "type" : ["image/jpg", "image/jpeg", "image/png", "aplication/pdf"],
+        "size_max" : "2097152",
+        "mandatory" : false
+    }
+]
