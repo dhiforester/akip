@@ -85,7 +85,12 @@
                         $kode= $data['kode'];
                         $nama= $data['nama'];
                         $keterangan= $data['keterangan'];
-                        $bobot=0;
+                        //Menghitung Bobot Dari Tabel Uraian
+                        $query_bobot = "SELECT SUM(bobot) AS total_bobot FROM uraian WHERE id_komponen_sub='$id_komponen_sub'";
+                        $HasilBobot = $Conn->query($query_bobot);
+                        // Ambil hasil
+                        $BarisBobot = $HasilBobot->fetch_assoc();
+                        $bobot = $BarisBobot['total_bobot'] ?? 0;
                         echo '
                             <tr>
                                 <td><small>'.$kode_komponen.'.'.$kode.'</small></td>
