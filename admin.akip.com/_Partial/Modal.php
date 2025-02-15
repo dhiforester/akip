@@ -6,6 +6,8 @@
         $page_arry=[
             "MyProfile"=>"_Page/MyProfile/ModalMyProfile.php",
             "Akses"=>"_Page/Akses/ModalAkses.php",
+            "SettingGeneral"=>"_Page/SettingGeneral/ModalSettingGeneral.php",
+            "SettingEmail"=>"_Page/SettingEmail/ModalSettingEmail.php",
             "Wilayah"=>"_Page/RegionalData/ModalRegionalData.php",
             "PeriodeEvaluasi"=>"_Page/PeriodeEvaluasi/ModalPeriodeEvaluasi.php",
             "Help"=>"_Page/Help/ModalHelp.php",

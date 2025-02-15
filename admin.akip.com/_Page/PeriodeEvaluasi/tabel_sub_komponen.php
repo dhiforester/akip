@@ -39,23 +39,14 @@
                     $keterangan_komponen=$Data['keterangan'];
                     echo '
                         <div class="row mb-2">
-                            <div class="col-3 mb-3">
-                                <small class="text text-dark">Komponen</small>
-                            </div>
-                            <div class="col-9 mb-3">
-                                <small class="text text-dark">
-                                    '.$kode_komponen.'. '.$nama_komponen.'
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row mb-2 border-1 border-bottom">
-                            <div class="col-3 mb-3">
-                                <small class="text text-dark">Keterangan</small>
-                            </div>
-                            <div class="col-9 mb-3">
-                                <small class="text text-dark">
-                                    <code class="text text-grayish">('.$keterangan_komponen.')</code>
-                                </small>
+                            <div class="col-12 mb-3">
+                                <ul>
+                                    <li>
+                                        <b class="text text-dark">
+                                            '.$kode_komponen.'. '.$nama_komponen.'
+                                        </b>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     ';
@@ -145,5 +136,5 @@
     var jml_data="<?php echo $jml_data; ?>";
 
     //Put Into Pagging Element
-    $('#FooterIndikator').html('Jumlah Data: '+jml_data+' Komponen');
+    $('#FooterIndikator').html('<small><code class="text text-grayish">Jumlah Data: '+jml_data+' Sub Komponen</code></small>');
 </script>

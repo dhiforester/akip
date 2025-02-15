@@ -4,6 +4,8 @@
         "Dashboard"=>"_Page/Dashboard/Dashboard.php",
         "MyProfile"=>"_Page/MyProfile/MyProfile.php",
         "Akses"=>"_Page/Akses/Akses.php",
+        "SettingGeneral"=>"_Page/SettingGeneral/SettingGeneral.php",
+        "SettingEmail"=>"_Page/SettingEmail/SettingEmail.php",
         "Wilayah"=>"_Page/RegionalData/RegionalData.php",
         "PeriodeEvaluasi"=>"_Page/PeriodeEvaluasi/PeriodeEvaluasi.php",
         "Help"=>"_Page/Help/Help.php",

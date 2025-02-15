@@ -14,6 +14,8 @@
             "Dashboard" => "_Page/Dashboard/Dashboard.js",
             "MyProfile" => "_Page/MyProfile/MyProfile.js",
             "Akses" => "_Page/Akses/Akses.js",
+            "SettingGeneral" => "_Page/SettingGeneral/SettingGeneral.js",
+            "SettingEmail" => "_Page/SettingEmail/SettingEmail.js",
             "Wilayah" => "_Page/RegionalData/RegionalData.js",
             "PeriodeEvaluasi" => "_Page/PeriodeEvaluasi/PeriodeEvaluasi.js",
             "Help" => "_Page/Help/Help.js",

@@ -10,8 +10,8 @@ $(document).ready(function() {
     function ReloadBelNotificationPesan() {
         $('#MenampilkanBelNotifikasiPesan').load('_Partial/ReloadBelNotificationPesan.php');
     }
-    setInterval(ReloadBelNotification, 10000);
-    setInterval(ReloadBelNotificationPesan, 10000);
+    setInterval(ReloadBelNotification, 360000);
+    setInterval(ReloadBelNotificationPesan, 360000);
 });
 
 //Kondisi Ketika Uraian Notifikasi Di Klik

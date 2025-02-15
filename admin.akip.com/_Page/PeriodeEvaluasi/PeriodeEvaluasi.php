@@ -146,7 +146,7 @@
                         3.Kriteria 
                         4. Uraian
                     </div>
-                    <div class="card-footer" id="FooterIndikator">
+                    <div class="card-footer border-0" id="FooterIndikator">
                         
                     </div>
                 </div>

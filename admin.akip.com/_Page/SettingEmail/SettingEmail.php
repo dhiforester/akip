@@ -1,7 +1,6 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAkses,'rfLn8WEkAqzC1gu5z45');
-    if($IjinAksesSaya!=="Ada"){
+    if($SessionAkses!=="Admin"){
         include "_Page/Error/NoAccess.php";
     }else{
         include "_Config/SettingEmail.php";

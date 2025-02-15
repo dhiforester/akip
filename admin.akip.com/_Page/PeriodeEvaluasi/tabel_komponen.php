@@ -97,5 +97,5 @@
     var jml_data="<?php echo $jml_data; ?>";
 
     //Put Into Pagging Element
-    $('#FooterIndikator').html('Jumlah Data: '+jml_data+' Komponen');
+    $('#FooterIndikator').html('<small><code class="text text-grayish">Jumlah Data: '+jml_data+' Komponen</code></small>');
 </script>

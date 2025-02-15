@@ -551,6 +551,12 @@ $(document).ready(function() {
         var id_komponen =$('#put_id_komponen_for_indikator').val();
         showSubKomponen(id_komponen);
     });
+
+    //kembali_ke_kriteria
+    $(document).on('click', '#kembali_ke_kriteria', function() {
+        var id_komponen_sub =$('#put_id_komponen_sub_for_indikator').val();
+        showKriteria(id_komponen_sub);
+    });
     //Modal Tambah Indikator
     $('#ModalTambahIndikator').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data('id');
@@ -898,7 +904,7 @@ $(document).ready(function() {
     });
 
     //Modal Tambah Uraian
-    $('#ModalHapusIndikator').on('show.bs.modal', function (e) {
+    $('#ModalTambahUraian').on('show.bs.modal', function (e) {
         var id_kriteria = $(e.relatedTarget).data('id');
 
         //Reset Form
@@ -909,5 +915,453 @@ $(document).ready(function() {
 
         //Tempelkan id_kriteria
         $("#put_id_kriteria_for_tambah_uraian").val(id_kriteria);
+
+        //Hapus List Alternatif
+        $("#list_alternatif").html('');
+
+        //Sembunyikan Form Lampiran
+        $("#FormTipeFile").hide();
+        $("#FormMaxFile").hide();
+    });
+
+    // Fungsi untuk menambahkan form alternatif
+    $('#TambahFormAlternatif').click(function() {
+        var newForm = `
+            <div class="row mb-3">
+                <div class="col-5">
+                    <input type="text" name="label_alternatif[]" class="form-control">
+                    <small>Label</small>
+                </div>
+                <div class="col-5">
+                    <input type="number" step="0.01" min="0" name="value_alternatif[]" class="form-control">
+                    <small>Skor</small>
+                </div>
+                <div class="col-2 text-end">
+                    <div class="btn-group shadow-0">
+                        <button type="button" class="btn btn-sm btn-floating btn-outline-danger hapus_form_alternatif">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        $('#list_alternatif').append(newForm);
+    });
+
+    // Fungsi untuk menghapus form alternatif
+    $(document).on('click', '.hapus_form_alternatif', function() {
+        $(this).closest('.row.mb-3').remove();
+    });
+
+    //Proses Tambah Uraian
+    $("#ProsesTambahUraian").on("submit", function (e) {
+        e.preventDefault();
+        var id_kriteria = $("#put_id_kriteria_for_tambah_uraian").val();
+        // Tombol loading
+        let $ModalElement = $("#ModalTambahUraian");
+        let $Notifikasi = $("#NotifikasiTambahUraian");
+        let $ButtonProses = $("#ButtonTambahUraian");
+        let ButtonElement = '<i class="bi bi-save"></i> Simpan';
+        $ButtonProses.html('Loading..');
+        $ButtonProses.prop("disabled", true);
+    
+        // Ambil data form
+        let formData = new FormData(this);
+
+        // Kirim data ke server
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/ProsesTambahUraian.php",
+            type        : "POST",
+            data        : formData,
+            contentType : false,
+            processData : false,
+            dataType    : "json",
+            success: function (response) {
+                var id_back=response.id_back;
+                //Apabila Proses Berhasil
+                if (response.status === "Success") {
+                    
+                    //reset form
+                    $("#ProsesTambahUraian")[0].reset();
+
+                    //Tampilkan Data
+                    showUraian(id_kriteria);
+                    
+                    // Tampilkan swal notifikasi
+                    Swal.fire(
+                        'Success!',
+                        'Hapus Data Berhasil!',
+                        'success'
+                    )
+
+                    // Reset tombol
+                    $ButtonProses.html(ButtonElement);
+                    $ButtonProses.prop("disabled", false);
+
+                    //Kosongkan Notifikasi
+                    $Notifikasi.html('');
+
+                    //Tutup Modal
+                    $ModalElement.modal('hide');
+                } else {
+                    // Tampilkan pesan error
+                    $Notifikasi.html(
+                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                    );
+                    $ButtonProses.html(ButtonElement).prop("disabled", false);
+                }
+            },
+            error: function () {
+                $Notifikasi.html(
+                    '<div class="alert alert-danger" role="alert">Terjadi kesalahan pada sistem. Silakan coba lagi.</div>'
+                );
+                $ButtonProses.html(ButtonElement).prop("disabled", false);
+            },
+        });
+    });
+
+    //Modal Edit Uraian
+    $('#ModalEditUraian').on('show.bs.modal', function (e) {
+        var id_uraian = $(e.relatedTarget).data('id');
+        $("#FormEditUraian").html('Loading...');
+        $("#NotifikasiEditUraian").html('');
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/FormEditUraian.php",
+            type        : "POST",
+            data        : {id_uraian: id_uraian},
+            success: function (response) {
+                $("#FormEditUraian").html(response);
+            }
+        });
+    });
+
+    //Proses Edit Uraian
+    $("#ProsesEditUraian").on("submit", function (e) {
+        e.preventDefault();
+        var id_kriteria = $("#id_kriteria_for_edit").val();
+        // Tombol loading
+        let $ModalElement = $("#ModalEditUraian");
+        let $Notifikasi = $("#NotifikasiEditUraian");
+        let $ButtonProses = $("#ButtonTambahUraian");
+        let ButtonElement = '<i class="bi bi-save"></i> Simpan';
+        $ButtonProses.html('Loading..');
+        $ButtonProses.prop("disabled", true);
+    
+        // Ambil data form
+        let formData = new FormData(this);
+
+        // Kirim data ke server
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/ProsesEditUraian.php",
+            type        : "POST",
+            data        : formData,
+            contentType : false,
+            processData : false,
+            dataType    : "json",
+            success: function (response) {
+                var id_back=response.id_back;
+                //Apabila Proses Berhasil
+                if (response.status === "Success") {
+                    
+                    //reset form
+                    $("#ProsesEditUraian")[0].reset();
+
+                    //Tampilkan Data
+                    showUraian(id_kriteria);
+                    
+                    // Tampilkan swal notifikasi
+                    Swal.fire(
+                        'Success!',
+                        'Edit Data Berhasil!',
+                        'success'
+                    )
+
+                    // Reset tombol
+                    $ButtonProses.html(ButtonElement);
+                    $ButtonProses.prop("disabled", false);
+
+                    //Kosongkan Notifikasi
+                    $Notifikasi.html('');
+
+                    //Tutup Modal
+                    $ModalElement.modal('hide');
+                } else {
+                    // Tampilkan pesan error
+                    $Notifikasi.html(
+                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                    );
+                    $ButtonProses.html(ButtonElement).prop("disabled", false);
+                }
+            },
+            error: function () {
+                $Notifikasi.html(
+                    '<div class="alert alert-danger" role="alert">Terjadi kesalahan pada sistem. Silakan coba lagi.</div>'
+                );
+                $ButtonProses.html(ButtonElement).prop("disabled", false);
+            },
+        });
+    });
+
+    //Modal Hapus Uraian
+    $('#ModalHapusUraian').on('show.bs.modal', function (e) {
+        var id_uraian = $(e.relatedTarget).data('id_uraian');
+        var id_kriteria = $(e.relatedTarget).data('id_kriteria');
+        var kode = $(e.relatedTarget).data('kode');
+        var nama = $(e.relatedTarget).data('nama');
+
+        //Tempelkan Data
+        $("#put_id_uraian_for_hapus_uraian").val(id_uraian);
+        $("#put_id_kriteria_for_hapus_uraian").val(id_kriteria);
+        $("#put_kode_for_delete_uraian").html(kode);
+        $("#put_name_for_delete_uraian").html(nama);
+        
+        //Atur Notifikasi
+        $("#NotifikasiHapusUraian").html('<small>Apakah Anda Yakin Akan Menghapus Data Tersebut?</small>');
+        
+    });
+
+    //Proses Hapus Lampiran
+    $("#ProsesHapusUraian").on("submit", function (e) {
+        e.preventDefault();
+        var id_kriteria = $("#put_id_kriteria_for_hapus_uraian").val();
+        // Tombol loading
+        let $ModalElement = $("#ModalHapusUraian");
+        let $Notifikasi = $("#NotifikasiHapusUraian");
+        let $ButtonProses = $("#ButtonHapusUraian");
+        let ButtonElement = '<i class="bi bi-check"></i> Ya, Hapus';
+        $ButtonProses.html('Loading..');
+        $ButtonProses.prop("disabled", true);
+    
+        // Ambil data form
+        let formData = new FormData(this);
+
+        // Kirim data ke server
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/ProsesHapusUraian.php",
+            type        : "POST",
+            data        : formData,
+            contentType : false,
+            processData : false,
+            dataType    : "json",
+            success: function (response) {
+                var id_back=response.id_back;
+                //Apabila Proses Berhasil
+                if (response.status === "Success") {
+                    
+                    //reset form
+                    $("#ProsesHapusUraian")[0].reset();
+
+                    //Tampilkan Data
+                    showUraian(id_kriteria);
+                    
+                    // Tampilkan swal notifikasi
+                    Swal.fire(
+                        'Success!',
+                        'Hapus Uraian Berhasil!',
+                        'success'
+                    )
+
+                    // Reset tombol
+                    $ButtonProses.html(ButtonElement);
+                    $ButtonProses.prop("disabled", false);
+
+                    //Kosongkan Notifikasi
+                    $Notifikasi.html('');
+
+                    //Tutup Modal
+                    $ModalElement.modal('hide');
+                } else {
+                    // Tampilkan pesan error
+                    $Notifikasi.html(
+                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                    );
+                    $ButtonProses.html(ButtonElement).prop("disabled", false);
+                }
+            },
+            error: function () {
+                $Notifikasi.html(
+                    '<div class="alert alert-danger" role="alert">Terjadi kesalahan pada sistem. Silakan coba lagi.</div>'
+                );
+                $ButtonProses.html(ButtonElement).prop("disabled", false);
+            },
+        });
+    });
+
+    //Modal Tambah Lampiran
+    $('#ModalTambahLampiran').on('show.bs.modal', function (e) {
+        var id_uraian = $(e.relatedTarget).data('id');
+
+        //Reset Form
+        $("#ProsesTambahLampiran")[0].reset();
+        
+        //Kosongkan Notifikasi
+        if(id_uraian===""){
+            $("#NotifikasiTambahUraian").html('<div class="alert alert-danger">ID Uraian Tidak Dapat Ditangkap Oleh Sistem!</div>');
+        }else{
+            $("#NotifikasiTambahUraian").html('');
+            //Tempelkan id_uraian
+            $("#put_id_uraian_untuk_lampiran").val(id_uraian);
+        }
+        
+    });
+
+    //Proses Tambah Lampiran
+    $("#ProsesTambahLampiran").on("submit", function (e) {
+        e.preventDefault();
+        var id_kriteria = $("#TambahUraian").data('id');
+        // Tombol loading
+        let $ModalElement = $("#ModalTambahLampiran");
+        let $Notifikasi = $("#NotifikasiTambahLampiran");
+        let $ButtonProses = $("#ButtonTambahLampiran");
+        let ButtonElement = '<i class="bi bi-save"></i> Simpan';
+        $ButtonProses.html('Loading..');
+        $ButtonProses.prop("disabled", true);
+    
+        // Ambil data form
+        let formData = new FormData(this);
+
+        // Kirim data ke server
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/ProsesTambahLampiran.php",
+            type        : "POST",
+            data        : formData,
+            contentType : false,
+            processData : false,
+            dataType    : "json",
+            success: function (response) {
+                var id_back=response.id_back;
+                //Apabila Proses Berhasil
+                if (response.status === "Success") {
+                    
+                    //reset form
+                    $("#ProsesTambahLampiran")[0].reset();
+
+                    //Tampilkan Data
+                    showUraian(id_kriteria);
+                    
+                    // Tampilkan swal notifikasi
+                    Swal.fire(
+                        'Success!',
+                        'Tambah Lampiran Berhasil!',
+                        'success'
+                    )
+
+                    // Reset tombol
+                    $ButtonProses.html(ButtonElement);
+                    $ButtonProses.prop("disabled", false);
+
+                    //Kosongkan Notifikasi
+                    $Notifikasi.html('');
+
+                    //Tutup Modal
+                    $ModalElement.modal('hide');
+                } else {
+                    // Tampilkan pesan error
+                    $Notifikasi.html(
+                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                    );
+                    $ButtonProses.html(ButtonElement).prop("disabled", false);
+                }
+            },
+            error: function () {
+                $Notifikasi.html(
+                    '<div class="alert alert-danger" role="alert">Terjadi kesalahan pada sistem. Silakan coba lagi.</div>'
+                );
+                $ButtonProses.html(ButtonElement).prop("disabled", false);
+            },
+        });
+    });
+
+    //Modal Hapus Lampiran
+    $('#ModalHapusLampiran').on('show.bs.modal', function (e) {
+        var id_lampiran = $(e.relatedTarget).data('id_lampiran');
+        var id_uraian = $(e.relatedTarget).data('id_uraian');
+        var id_kriteria = $(e.relatedTarget).data('id_kriteria');
+        //Loading Form
+        $("#FormHapusLampiran").html('Loadiing...');
+
+        //Reset Notifikasi
+        $("#NotifikasiHapusLampiran").html('');
+
+        //Konfirmasi Hapus
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/FormHapusLampiran.php",
+            type        : "POST",
+            data        : {
+                id_uraian: id_uraian, 
+                id_lampiran: id_lampiran, 
+                id_kriteria: id_kriteria
+            },
+            success: function (response) {
+                $("#FormHapusLampiran").html(response);
+            }
+        });
+    });
+
+    //Proses Hapus Lampiran
+    $("#ProsesHapusLampiran").on("submit", function (e) {
+        e.preventDefault();
+        var id_kriteria = $("#id_kriteria_for_hapus_lampiran").val();
+        // Tombol loading
+        let $ModalElement = $("#ModalHapusLampiran");
+        let $Notifikasi = $("#NotifikasiHapusLampiran");
+        let $ButtonProses = $("#ButtonHapusLampiran");
+        let ButtonElement = '<i class="bi bi-save"></i> Ya, Hapus';
+        $ButtonProses.html('Loading..');
+        $ButtonProses.prop("disabled", true);
+    
+        // Ambil data form
+        let formData = new FormData(this);
+
+        // Kirim data ke server
+        $.ajax({
+            url         : "_Page/PeriodeEvaluasi/ProsesHapusLampiran.php",
+            type        : "POST",
+            data        : formData,
+            contentType : false,
+            processData : false,
+            dataType    : "json",
+            success: function (response) {
+                var id_back=response.id_back;
+                //Apabila Proses Berhasil
+                if (response.status === "Success") {
+                    
+                    //reset form
+                    $("#ProsesHapusLampiran")[0].reset();
+
+                    //Tampilkan Data
+                    showUraian(id_kriteria);
+                    
+                    // Tampilkan swal notifikasi
+                    Swal.fire(
+                        'Success!',
+                        'Hapus Lampiran Berhasil!',
+                        'success'
+                    )
+
+                    // Reset tombol
+                    $ButtonProses.html(ButtonElement);
+                    $ButtonProses.prop("disabled", false);
+
+                    //Kosongkan Notifikasi
+                    $Notifikasi.html('');
+
+                    //Tutup Modal
+                    $ModalElement.modal('hide');
+                } else {
+                    // Tampilkan pesan error
+                    $Notifikasi.html(
+                        `<div class="alert alert-danger" role="alert">${response.message}</div>`
+                    );
+                    $ButtonProses.html(ButtonElement).prop("disabled", false);
+                }
+            },
+            error: function () {
+                $Notifikasi.html(
+                    '<div class="alert alert-danger" role="alert">Terjadi kesalahan pada sistem. Silakan coba lagi.</div>'
+                );
+                $ButtonProses.html(ButtonElement).prop("disabled", false);
+            },
+        });
     });
 });

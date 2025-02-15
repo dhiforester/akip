@@ -1,52 +1,17 @@
-[
-    {
-        "keterangan": "Pilih salah satu"
-    },
-    {
-        "type" : "select_option",
-        "alternatif" : [
-            {
-                "label" : "Ada",
-                "value" : 1
-            },
-            {
-                "label" : "Tidak Ada",
-                "value" : 0
-            }
-        ]
-    },
-    {
-        "type" : "select_option",
-        "alternatif" : [
-            {
-                "label" : "Ada",
-                "value" : 2
-            },
-            {
-                "label" : "Sebagian",
-                "value" : 3
-            },
-            {
-                "label" : "Tidak Ada",
-                "value" : 0
-            }
-        ]
-    },
-    {
-        "type" : "list_option",
-        "alternatif" : [
-            {
-                "label" : "Tersedianya Dokumen A",
-                "value" : 1
-            },
-            {
-                "label" : "Tersedianya Dokumen B",
-                "value" : 1
-            },
-            {
-                "label" : "Tersedianya Dokumen C",
-                "value" : 1
-            }
-        ]
-    }
-]
+{
+    "type": "list_option",
+    "alternatif": [
+        {
+            "label": "Pendahuluan",
+            "value": "1"
+        },
+        {
+            "label": "Batasan Masalah",
+            "value": "1"
+        },
+        {
+            "label": "Hasil",
+            "value": "1"
+        }
+    ]
+}
