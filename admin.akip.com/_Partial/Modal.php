@@ -9,6 +9,7 @@
             "SettingGeneral"=>"_Page/SettingGeneral/ModalSettingGeneral.php",
             "SettingEmail"=>"_Page/SettingEmail/ModalSettingEmail.php",
             "Wilayah"=>"_Page/RegionalData/ModalRegionalData.php",
+            "Inspektorat"=>"_Page/Inspektorat/ModalInspektorat.php",
             "PeriodeEvaluasi"=>"_Page/PeriodeEvaluasi/ModalPeriodeEvaluasi.php",
             "Help"=>"_Page/Help/ModalHelp.php",
         ];

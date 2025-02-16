@@ -27,6 +27,15 @@
             echo '  </ol>';
             echo '</nav>';
         }
+        if($_GET['Page']=="Inspektorat"){
+            echo '<h1><a href=""><i class="bi bi-star"></i> Inspektorat</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Inspektorat</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="PeriodeEvaluasi"){
             echo '<h1><a href=""><i class="bi bi-calendar"></i> Periode Evaluasi</a></h1>';
             echo '<nav>';
@@ -46,26 +55,15 @@
                 echo '  </ol>';
                 echo '</nav>';
             }else{
-                if($_GET['Sub']=="AturIjinAkses"){
-                    echo '<h1><i class="bi bi-person-badge"></i> Atur ijin Akses</h1>';
+                if($_GET['Sub']=="DetailAkses"){
+                    echo '<h1><i class="bi bi-person-badge"></i> Detail Akses</h1>';
                     echo '<nav>';
                     echo '  <ol class="breadcrumb">';
                     echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
                     echo '      <li class="breadcrumb-item"><a href="index.php?Page=Akses">Akses</a></li>';
-                    echo '      <li class="breadcrumb-item active">Atur ijin Akses</li>';
+                    echo '      <li class="breadcrumb-item active">Detail Akses</li>';
                     echo '  </ol>';
                     echo '</nav>';
-                }else{
-                    if($_GET['Sub']=="DetailAkses"){
-                        echo '<h1><i class="bi bi-person-badge"></i> Detail Akses</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=Akses">Akses</a></li>';
-                        echo '      <li class="breadcrumb-item active">Detail Akses</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }
                 }
             }
         }

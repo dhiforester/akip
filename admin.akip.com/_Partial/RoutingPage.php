@@ -7,6 +7,7 @@
         "SettingGeneral"=>"_Page/SettingGeneral/SettingGeneral.php",
         "SettingEmail"=>"_Page/SettingEmail/SettingEmail.php",
         "Wilayah"=>"_Page/RegionalData/RegionalData.php",
+        "Inspektorat"=>"_Page/Inspektorat/Inspektorat.php",
         "PeriodeEvaluasi"=>"_Page/PeriodeEvaluasi/PeriodeEvaluasi.php",
         "Help"=>"_Page/Help/Help.php",
     ];

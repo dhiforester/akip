@@ -48,33 +48,6 @@
             )
         </script>
     <?php } ?>
-    <?php if($NotifikasiSwal=="Tambah Transaksi Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Tambah Transaksi Berhasil!',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Tambah Auto Jurnal Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Tambah Auto Jurnal Berhasil!',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Update Auto Jurnal Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Update Auto Jurnal Berhasil!',
-                'success'
-            )
-        </script>
-    <?php } ?>
     <?php if($NotifikasiSwal=="Simpan Setting General Berhasil"){ ?>
         <script>
             Swal.fire(
@@ -93,15 +66,6 @@
             )
         </script>
     <?php } ?>
-    <?php if($NotifikasiSwal=="Simpan Setting Payment Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Simpan Setting Payment Berhasil',
-                'success'
-            )
-        </script>
-    <?php } ?>
     <?php if($NotifikasiSwal=="Simpan Help Berhasil"){ ?>
         <script>
             Swal.fire(
@@ -116,42 +80,6 @@
             Swal.fire(
                 'Berhasil!',
                 'Simpan Help Berhasil!',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Edit Email Anggota Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Edit Email Berhasil!',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Simpan Tentang Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Simpan Tentang Berhasil',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Simpan Term Of Service Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Simpan Term Of Service Berhasil',
-                'success'
-            )
-        </script>
-    <?php } ?>
-    <?php if($NotifikasiSwal=="Simpan Privacy Policy Berhasil"){ ?>
-        <script>
-            Swal.fire(
-                'Berhasil!',
-                'Simpan Privacy Policy Berhasil',
                 'success'
             )
         </script>

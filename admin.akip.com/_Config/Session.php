@@ -48,7 +48,6 @@
                 $update_result = mysqli_stmt_execute($stmt);
                 if($update_result){
                     //Apabila Proses Perpanjang Berhasil
-                    $SessionIdOpd=$DataAkses['id_opd'];
                     $SessionNama=$DataAkses['nama'];
                     $SessionEmail=$DataAkses['email'];
                     $SessionKontak=$DataAkses['kontak'];

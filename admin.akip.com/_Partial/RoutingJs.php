@@ -17,6 +17,7 @@
             "SettingGeneral" => "_Page/SettingGeneral/SettingGeneral.js",
             "SettingEmail" => "_Page/SettingEmail/SettingEmail.js",
             "Wilayah" => "_Page/RegionalData/RegionalData.js",
+            "Inspektorat" => "_Page/Inspektorat/Inspektorat.js",
             "PeriodeEvaluasi" => "_Page/PeriodeEvaluasi/PeriodeEvaluasi.js",
             "Help" => "_Page/Help/Help.js",
             "Profil" => "_Page/Profil/Profil.js",

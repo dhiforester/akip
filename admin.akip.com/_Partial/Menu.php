@@ -69,6 +69,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link <?php if($PageMenu!=="Inspektorat"){echo "collapsed";} ?>" href="index.php?Page=Inspektorat">
+                <i class="bi bi-star"></i>
+                <span>Inspektorat</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link <?php if($PageMenu!=="PeriodeEvaluasi"){echo "collapsed";} ?>" href="index.php?Page=PeriodeEvaluasi">
                 <i class="bi bi-calendar"></i>
                 <span>Periode Evaluasi</span>
