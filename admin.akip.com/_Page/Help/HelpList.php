@@ -1,7 +1,7 @@
 <?php
     //koneksi dan session
     include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
+    include "../../_Config/Function.php";
     include "../../_Config/Session.php";
     date_default_timezone_set("Asia/Jakarta");
     if(empty($SessionIdAkses)){

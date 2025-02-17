@@ -3,7 +3,7 @@
     date_default_timezone_set('Asia/Jakarta');
     include "../../_Config/Connection.php";
     include "../../_Config/SettingGeneral.php";
-    include "../../_Config/GlobalFunction.php";
+    include "../../_Config/Function.php";
     include "../../_Config/Session.php";
     if(empty($SessionIdAkses)){
         echo '<div class="row">';
