@@ -18,7 +18,7 @@ $(document).ready(function () {
                     }
                 },
                 series: [{
-                    name: 'Pendaftaran Member',
+                    name: 'Aktivitas Sistem',
                     data: response // Data diambil langsung dari JSON
                 }],
                 xaxis: {
@@ -29,11 +29,11 @@ $(document).ready(function () {
                 },
                 yaxis: {
                     title: {
-                        text: 'Jumlah Pendaftaran'
+                        text: 'Jumlah Aktivitas'
                     }
                 },
                 title: {
-                    text: 'Pendaftaran Member Baru',
+                    text: 'Aktivitas Terbaru',
                     align: 'center'
                 }
             };

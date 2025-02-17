@@ -12,11 +12,12 @@
         echo '</div>';
     }else{
         $id_akses=$_POST['id_akses'];
-        $nama=getDataDetail($Conn,'akses','id_akses',$id_akses,'nama');
+        $nama=GetDetailData($Conn,'akses','id_akses',$id_akses,'nama');
 ?>
         <input type="hidden" name="id_akses" value="<?php echo "$id_akses"; ?>">
         <div class="row mb-3">
             <div class="col-md-12 text-center">
+                <small>Nama Pengguna</small><br>
                 <b><?php echo "$nama"; ?></b>
             </div>
         </div>

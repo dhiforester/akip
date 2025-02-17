@@ -63,6 +63,19 @@
         //KONDISI PENGATURAN MASING FILTER
         if(empty($keyword_by)){
             if(empty($keyword)){
+                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM inspektorat ORDER BY $OrderBy $ShortBy"));
+            }else{
+                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM inspektorat WHERE nama_inspektorat like '%$keyword%' OR telepon like '%$keyword%' OR alamat like '%$keyword%' ORDER BY $OrderBy $ShortBy"));
+            }
+        }else{
+            if(empty($keyword)){
+                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM inspektorat ORDER BY $OrderBy $ShortBy"));
+            }else{
+                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM inspektorat WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy"));
+            }
+        }
+        if(empty($keyword_by)){
+            if(empty($keyword)){
                 $query = mysqli_query($Conn, "SELECT*FROM inspektorat ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
             }else{
                 $query = mysqli_query($Conn, "SELECT*FROM inspektorat WHERE nama_inspektorat like '%$keyword%' OR telepon like '%$keyword%' OR alamat like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
@@ -74,7 +87,6 @@
                 $query = mysqli_query($Conn, "SELECT*FROM inspektorat WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
             }
         }
-        $jml_data = mysqli_num_rows($query);
         if(empty($jml_data)){
             echo '
                 <tr>

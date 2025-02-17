@@ -38,22 +38,7 @@
                     $email=$Data['email'];
                     $kontak=$Data['kontak'];
                     $akses=$Data['akses'];
-                    $foto=$Data['foto'];
-                    $timestamp_creat=$Data['timestamp_creat'];
-                    if(empty($foto)){
-                        $url_foto='assets/img/User/No-Image.png';
-                    }else{
-                        $url_foto='assets/img/User/'.$foto.'';
-                    }
-                    $strtotime=strtotime($timestamp_creat);
-                    $datetime_creat=date('d/m/Y H:i',$strtotime);
-                    //Tampilkan Data
                     echo '
-                        <div class="row mb-4">
-                            <div class="col-md-12 text-center mb-3">
-                                <img src="'.$url_foto.'" alt="Image" width="200px" height="200px" class="rounded-circle">
-                            </div>
-                        </div>
                         <div class="row mb-3">
                             <div class="col-4"><small>Nama User</small></div>
                             <div class="col-8 text-end"><small class="text-grayish">'.$nama.'</small></div>
@@ -67,8 +52,8 @@
                             <div class="col-8 text-end"><small class="text-grayish">'.$kontak.'</small></div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-4"><small>Tanggal Input</small></div>
-                            <div class="col-8 text-end"><small class="text-grayish">'.$datetime_creat.'</small></div>
+                            <div class="col-4"><small>Level Akses</small></div>
+                            <div class="col-8 text-end"><small class="text-grayish">'.$akses.'</small></div>
                         </div>
                     ';
                     //Buka Informasi Akses Berdasarkan Level Akses
@@ -262,8 +247,44 @@
                             }
                         }
                     }
+?>
+                    <input type="hidden" name="id_akses" value="<?php echo $id_akses; ?>">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="akses_edit">Akses Baru</label>
+                        </div>
+                        <div class="col-8">
+                            <select name="akses" id="akses_edit" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Provinsi">Provinsi</option>
+                                <option value="Kabupaten">Kabupaten/Kota</option>
+                                <option value="Inspektorat">Inspektorat</option>
+                                <option value="OPD">OPD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="FormPilihWilayahEdit">
+                        <!-- Menampilkan Form Wilayah -->
+                    </div>
+<?php
                 }
             }
         }
     }
 ?>
+<script>
+    //Ketika Akses Diubah, Tampilkan Wilayah
+    $('#akses_edit').change(function(){
+        var akses = $('#akses_edit').val();
+        $('#FormPilihWilayahEdit').html('Loading...');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Akses/FormPilihWilayah.php',
+            data 	    :  {akses: akses},
+            success     : function(data){
+                $('#FormPilihWilayahEdit').html(data);
+            }
+        });
+    });
+</script>

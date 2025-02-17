@@ -1,16 +1,15 @@
 <?php
     include "../../_Config/Connection.php";
     include "../../_Config/Function.php";
-    if(!empty($_POST['id_wilayah'])){
-        $id_wilayah=$_POST['id_wilayah'];
-        $provinsi=getDataDetail($Conn,'wilayah','id_wilayah',$id_wilayah,'propinsi');
+    if(!empty($_POST['id_provinsi'])){
+        $id_provinsi=$_POST['id_provinsi'];
         //List Kabupaten
         echo '<option value="">Pilih</option>';
-        $query = mysqli_query($Conn, "SELECT*FROM wilayah WHERE propinsi='$provinsi' AND kategori='Kabupaten'");
+        $query = mysqli_query($Conn, "SELECT*FROM wilayah_kabkot WHERE id_provinsi='$id_provinsi'");
         while ($data = mysqli_fetch_array($query)) {
-            $ListIdWilayah= $data['id_wilayah'];
-            $kabupaten= $data['kabupaten'];
-            echo '<option value="'.$ListIdWilayah.'">'.$kabupaten.'</option>';
+            $id_kabkot= $data['id_kabkot'];
+            $kabkot= $data['kabkot'];
+            echo '<option value="'.$id_kabkot.'">'.$kabkot.'</option>';
         }
     }else{
         echo '<option value="">Pilih</option>';

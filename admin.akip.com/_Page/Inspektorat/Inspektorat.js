@@ -59,6 +59,32 @@ $(document).ready(function() {
     var height=0;
     ShowInspektorat(0);
 
+    //Ketika Dilakukan Pencarian
+    $("#FilterInspektorat").on("submit", function (e) {
+        //Reset Halaman
+        $('#page').val(1);
+
+        //Tampilkan Data
+        ShowInspektorat(0);
+
+        //Tutup Modal
+        $("#ModalFilterInspektorat").modal('hide');
+    });
+
+    //Pagging
+    $(document).on('click', '#next_button_inspektorat', function() {
+        var page_now = parseInt($('#page').val(), 10); // Pastikan nilai diambil sebagai angka
+        var next_page = page_now + 1;
+        $('#page').val(next_page);
+        ShowInspektorat(0);
+    });
+    $(document).on('click', '#prev_button_inspektorat', function() {
+        var page_now = parseInt($('#page').val(), 10); // Pastikan nilai diambil sebagai angka
+        var next_page = page_now - 1;
+        $('#page').val(next_page);
+        ShowInspektorat(0);
+    });
+
     //Event ketika id_provinsi di ubah
     $(document).on('change', '#id_provinsi', function() {
         var id_provinsi = $(this).val();
@@ -244,7 +270,6 @@ $(document).ready(function() {
                     
                     //Reset Form Tambah Dan Filter
                     $("#ProsesEditInspektorat")[0].reset();
-                    $("#FilterInspektorat")[0].reset();
 
                     //Tampilkan Data
                     ShowInspektorat(0);

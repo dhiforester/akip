@@ -8,11 +8,14 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman pengelolaan data akses. Anda bisa menambahkan data akses baru, melihat detail informasi user, ';
-                    echo '  Dan melihat riwayat aktivitas user tersebut.';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                    echo '</div>';
+                    echo '
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <small>
+                                Berikut ini adalah halaman pengelolaan data akses. 
+                                Halaman ini mengelola data akses secara umum.
+                            </small>
+                        </div>
+                    ';
                 ?>
             </div>
         </div>
@@ -22,7 +25,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-8 mb-3">
-                                <b class="card-title">Data Akses/Pengguna</b>
+                                <b class="card-title">Daftar Pengguna</b>
                             </div>
                             <div class="col-4 mb-3 text-end">
                                 <button type="button" class="btn btn-sm btn-outline-grayish btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Export Data Akses">
@@ -62,7 +65,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <small id="page-info_akses">
+                                <small id="page_info_akses">
                                     Page 1 Of 100
                                 </small>
                             </div>

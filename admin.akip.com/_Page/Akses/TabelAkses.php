@@ -63,6 +63,19 @@
         //KONDISI PENGATURAN MASING FILTER
         if(empty($keyword_by)){
             if(empty($keyword)){
+                $jml_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses ORDER BY $OrderBy $ShortBy"));
+            }else{
+                $jml_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE nama like '%$keyword%' OR email like '%$keyword%' OR kontak like '%$keyword%' OR akses like '%$keyword%' ORDER BY $OrderBy $ShortBy"));
+            }
+        }else{
+            if(empty($keyword)){
+                $jml_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses ORDER BY $OrderBy $ShortBy"));
+            }else{
+                $jml_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy"));
+            }
+        }
+        if(empty($keyword_by)){
+            if(empty($keyword)){
                 $query = mysqli_query($Conn, "SELECT*FROM akses ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
             }else{
                 $query = mysqli_query($Conn, "SELECT*FROM akses WHERE nama like '%$keyword%' OR email like '%$keyword%' OR kontak like '%$keyword%' OR akses like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
@@ -74,7 +87,6 @@
                 $query = mysqli_query($Conn, "SELECT*FROM akses WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
             }
         }
-        $jml_data = mysqli_num_rows($query);
         if(empty($jml_data)){
             echo '
                 <tr>
@@ -84,9 +96,6 @@
         }else{
             while ($data = mysqli_fetch_array($query)) {
                 $id_akses= $data['id_akses'];
-                $id_opd= $data['id_opd'];
-                $id_provinsi= $data['id_provinsi'];
-                $id_kabkot= $data['id_kabkot'];
                 $nama= $data['nama'];
                 $kontak_akses= $data['kontak'];
                 $email_akses= $data['email'];
@@ -94,7 +103,11 @@
                 echo '
                     <tr>
                         <td><small>'.$no.'</small></td>
-                        <td><small>'.$nama.'</small></td>
+                        <td>
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailAkses" data-id="'.$id_akses.'">
+                                <small>'.$nama.'</small>
+                            </a>
+                        </td>
                         <td><small>'.$email_akses.'</small></td>
                         <td><small>'.$akses.'</small></td>
                         <td>
@@ -113,8 +126,18 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalUbahFoto" data-id="'.$id_akses.'">
+                                        <i class="bi bi-image"></i> Ubah Foto
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEditAkses" data-id="'.$id_akses.'">
-                                        <i class="bi bi-pencil"></i> Edit Akses
+                                        <i class="bi bi-pencil"></i> Edit Profil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEditLevelAkses" data-id="'.$id_akses.'">
+                                        <i class="bi bi-tag"></i> Level Akses
                                     </a>
                                 </li>
                                 <li>
@@ -138,7 +161,7 @@
     var curent_page="<?php echo $page; ?>";
     
     //Put Into Pagging Element
-    $('#page_info_provinsi').html('Page '+curent_page+' Of '+page_count+'');
+    $('#page_info_akses').html('Page '+curent_page+' Of '+page_count+'');
     
     //Set Pagging Button
     if(curent_page==1){

@@ -1,36 +1,24 @@
 <?php
-    // Koneksi
+    //Koneksi
     include "../../_Config/Connection.php";
-    include "../../_Config/Function.php";
     include "../../_Config/Session.php";
-
-    // Time Zone
+    include "../../_Config/Function.php";
+    
+    //Time Zone
     date_default_timezone_set('Asia/Jakarta');
+    
+    //Time Now Tmp
+    $now=date('Y-m-d H:i:s');
 
-    // Inisialisasi waktu dan respons default
-    $now = date('Y-m-d H:i:s');
-    $response = [
-        "status" => "Error",
-        "message" => "Belum ada proses yang dilakukan pada sistem."
-    ];
-
-    if (empty($SessionIdAkses)) {
-        $response = [
-            "status" => "Error",
-            "message" => "Sesi Akses Sudah Berakhir, Silahkan Login Ulang"
-        ];
-        echo json_encode($response);
+    //Sessi Akses Tidak Boleh Kosong
+    if(empty($SessionIdAkses)){
+        echo json_encode(["status" => "Error", "message" => "Sesi Akses Sudah Berakhir! Silahkan Login Ulang!"]);
         exit;
     }
-
     // Validasi Data Tidak Boleh Kosong
     $requiredFields = [
-        'nama' => "Nama Pengguna Tidak Boleh Kosong!",
-        'email' => "Email Pengguna Tidak Boleh Kosong!",
-        'kontak' => "Kontak Pengguna Tidak Boleh Kosong!",
-        'akses' => "Akses Pengguna Tidak Boleh Kosong!",
-        'password1' => "Password Tidak Boleh Kosong!",
-        'password2' => "Ulangi Password Tidak Boleh Kosong!",
+        'id_akses' => "ID Akses Tidak Boleh Kosong!",
+        'akses' => "Level Akses Pengguna Tidak Boleh Kosong!"
     ];
 
     foreach ($requiredFields as $field => $errorMessage) {
@@ -41,50 +29,9 @@
     }
 
     // Assign dan sanitasi nilai variabel
-    $nama = validateAndSanitizeInput($_POST['nama']);
-    $email = validateAndSanitizeInput($_POST['email']);
-    $kontak = validateAndSanitizeInput($_POST['kontak']);
+    $id_akses = validateAndSanitizeInput($_POST['id_akses']);
     $akses = validateAndSanitizeInput($_POST['akses']);
-    $password1 = validateAndSanitizeInput($_POST['password1']);
-    $password2 = validateAndSanitizeInput($_POST['password2']);
 
-    // Validasi panjang karakter
-    $maxLengths = [
-        'nama' => 250,
-        'email' => 250,
-        'kontak' => 20,
-        'password1' => 20
-    ];
-
-    foreach ($maxLengths as $field => $maxLength) {
-        if (strlen($$field) > $maxLength) {
-            echo json_encode(["status" => "Error", "message" => ucfirst($field) . " tidak boleh lebih dari $maxLength karakter"]);
-            exit;
-        }
-    }
-
-    //Validasi Tidak Boleh Duplikat
-    $validasi_duplikat_email=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE email='$email'"));
-    $validasi_duplikat_kontak=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE kontak='$kontak'"));
-    if(!empty($validasi_duplikat_email)){
-        echo json_encode(["status" => "Error", "message" => "Email yang akan anda masukan sudah terdaftar"]);
-        exit;
-    }
-    if(!empty($validasi_duplikat_kontak)){
-        echo json_encode(["status" => "Error", "message" => "Kontak yang akan anda masukan sudah terdaftar"]);
-        exit;
-    }
-    //Validasi Kontak hanya angka
-    if (!preg_match('/^\d+$/', $kontak)) {
-        echo json_encode(["status" => "Error", "message" => "Nomor Kontak hanya boleh angka"]);
-        exit;
-    }
-
-    //Validasi password sama
-    if($password1!==$password2){
-        echo json_encode(["status" => "Error", "message" => "Password yang anda masukan tidak sama"]);
-        exit;
-    }
     //Validasi Kelengkapan data berdasarkan akses
     $provinsi="";
     $kabupaten="";
@@ -156,70 +103,62 @@
         echo json_encode(["status" => "Error", "message" => $ValidasiKelengkapanAkses]);
         exit;
     }
+    //Buka Level Akses Lama
+    $akses_lama=GetDetailData($Conn, 'akses', 'id_akses', $id_akses, 'akses');
+    //Update Akses
+    $stmt_update = mysqli_prepare($Conn, "UPDATE akses SET 
+        akses=?
+    WHERE id_akses=?");
+    mysqli_stmt_bind_param($stmt_update, "si", 
+        $akses,
+        $id_akses
+    );
+    $update_result = mysqli_stmt_execute($stmt_update);
+    if ($update_result) {
 
-    //Apabila Ada File
-    if(!empty($_FILES['foto']['name'])){
-        //nama gambar
-        $nama_gambar=$_FILES['foto']['name'];
-        //ukuran gambar
-        $ukuran_gambar = $_FILES['foto']['size']; 
-        //tipe
-        $tipe_gambar = $_FILES['foto']['type']; 
-        //sumber gambar
-        $tmp_gambar = $_FILES['foto']['tmp_name'];
-        
-
-        $imageFile = $_FILES['foto'];
-        //Validasi File
-        $validationResult = validateUploadedFile($imageFile,2);
-        if ($validationResult === true) {
-            //Apabila Valid Lakukan Upload
-            if($tipe_gambar== "image/jpeg"){
-                $Ext="jpeg";
-            }
-            if($tipe_gambar== "image/jpg"){
-                $Ext="jpg";
-            }
-            if($tipe_gambar== "image/gif"){
-                $Ext="gif";
-            }
-            if($tipe_gambar== "image/png"){
-                $Ext="png";
-            }
-            $file_name_new=generateRandomString(35);
-            $foto="$file_name_new.$Ext";
-            $path = "../../assets/img/User/".$foto;
-            if(move_uploaded_file($tmp_gambar, $path)){
-                $ValidasiGambar="Valid";
+        //Hapus Relasi Tabel Akses Lama
+        if($akses_lama=="Inspektorat"){
+            $HapusAkses = mysqli_query($Conn, "DELETE FROM akses_inspektorat WHERE id_akses='$id_akses'") or die(mysqli_error($Conn));
+            if ($HapusAkses) {
+                $validasi_hapus="Berhasil";
             }else{
-                $ValidasiGambar="Upload file gambar gagal";
+                $validasi_hapus="Gagal Menghapus Akses Inspektorat Lama";
             }
         }else{
-            $ValidasiGambar=$validationResult;
+            if($akses_lama=="OPD"){
+                $HapusAkses = mysqli_query($Conn, "DELETE FROM akses_opd WHERE id_akses='$id_akses'") or die(mysqli_error($Conn));
+                if ($HapusAkses) {
+                    $validasi_hapus="Berhasil";
+                }else{
+                    $validasi_hapus="Gagal Menghapus Akses OPD Lama";
+                }
+            }else{
+                if($akses_lama=="Provinsi"){
+                    $HapusAkses = mysqli_query($Conn, "DELETE FROM akses_provinsi WHERE id_akses='$id_akses'") or die(mysqli_error($Conn));
+                    if ($HapusAkses) {
+                        $validasi_hapus="Berhasil";
+                    }else{
+                        $validasi_hapus="Gagal Menghapus Akses Provinsi Lama";
+                    }
+                }else{
+                    if($akses_lama=="Kabupaten"){
+                        $HapusAkses = mysqli_query($Conn, "DELETE FROM akses_kabupaten WHERE id_akses='$id_akses'") or die(mysqli_error($Conn));
+                        if ($HapusAkses) {
+                            $validasi_hapus="Berhasil";
+                        }else{
+                            $validasi_hapus="Gagal Menghapus Akses Kabupaten Lama";
+                        }
+                    }else{
+                        $validasi_hapus="Berhasil";
+                    }
+                }
+            }
         }
-    }else{
-        $ValidasiGambar="Valid";
-        $foto="";
-    }
-    if($ValidasiGambar!=="Valid"){
-        echo json_encode(["status" => "Error", "message" => $ValidasiGambar]);
-        exit;
-    }
-
-    //Hasing Password
-    $password=password_hash($password1, PASSWORD_DEFAULT);
-
-    //Insert data akses
-    $query_insert = "INSERT INTO akses (nama, email, kontak, password, akses, foto, timestamp_creat) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt_insert = $Conn->prepare($query_insert);
-    if ($stmt_insert) {
-        $stmt_insert->bind_param("sssssss", $nama, $email, $kontak, $password, $akses, $foto, $now);
-        if ($stmt_insert->execute()) {
-            
-            //Buka ID Akses
-            $id_akses=GetDetailData($Conn, 'akses', 'email', $email, 'id_akses');
-            
-            //Jika Berhasil Insert Data Ke tabel lain berdasarkan hak akses
+        if($validasi_hapus!=="Berhasil"){
+            echo json_encode(["status" => "Error", "message" => $validasi_hapus]);
+            exit;
+        }else{
+            //Jika Berhasil Insert Data Ke tabel lain berdasarkan hak akses baru
             if($akses=="Inspektorat"){
                 $query_inspektorat = "INSERT INTO akses_inspektorat (id_akses, id_inspektorat) VALUES (?, ?)";
                 $stmt_inspektorat = $Conn->prepare($query_inspektorat);
@@ -286,21 +225,17 @@
                 exit;
             }else{
                 //Simpan Log
-                $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Tambah Akses');
+                $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Edit Akses');
                 if($SimpanLog=="Success"){
-                    echo json_encode(["status" => "Success", "message" => "Tambah Akses Berhasil!"]);
+                    echo json_encode(["status" => "Success", "message" => "Edit Akses Berhasil!"]);
                     exit;
                 }else{
                     echo json_encode(["status" => "Error", "message" => "Terjadi Kesalahan Pada Saat Menyimpan Log"]);
                     exit;
                 }
             }
-        } else {
-            echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat input ke database"]);
-            exit;
         }
     } else {
-        echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat mempersiapkan statement database"]);
-        exit;
+        echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat input ke database"]);
     }
 ?>
