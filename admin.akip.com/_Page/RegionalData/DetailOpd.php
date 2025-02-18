@@ -103,8 +103,8 @@
                         </div>
                     ';
                     $no = 1;
-                    //KONDISI PENGATURAN MASING FILTER
-                    $query = mysqli_query($Conn, "SELECT id_akses, nama, email, kontak FROM akses WHERE id_opd='$id_opd' AND akses='OPD' ORDER BY nama ASC");
+                    //Buka data askes OPD
+                    $query = mysqli_query($Conn, "SELECT id_akses FROM akses_opd WHERE id_opd='$id_opd' ORDER BY id_akses ASC");
                     $jml_data = mysqli_num_rows($query);
                     if(empty($jml_data)){
                         echo '
@@ -135,11 +135,11 @@
                         ';
                                             while ($data = mysqli_fetch_array($query)) {
                                                 $id_akses= $data['id_akses'];
-                                                $nama= $data['nama'];
-                                                $email= $data['email'];
-                                                $kontak= $data['kontak'];
-                                                //Jumlah Akses
-                                                $JumlahAkses = mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE id_kabkot='$id_kabkot'"));
+                                                //Buka Detail Akses
+
+                                                $nama=GetDetailData($Conn, 'akses', 'id_akses', $id_akses, 'nama');
+                                                $email=GetDetailData($Conn, 'akses', 'id_akses', $id_akses, 'email');
+                                                $kontak=GetDetailData($Conn, 'akses', 'id_akses', $id_akses, 'kontak');
                                                 echo '
                                                     <tr>
                                                         <td><small>'.$no.'</small></td>

@@ -46,9 +46,9 @@
                     ];
                 }else{
                     //Buka Data
-                    $id_opd=$Data['id_opd'];
-                    $id_provinsi=$Data['id_provinsi'];
-                    $id_kabkot=$Data['id_kabkot'];
+                    $id_opd=GetDetailData($Conn, 'akses_opd', 'id_akses', $id_akses, 'id_opd');
+                    $id_provinsi=GetDetailData($Conn, 'akses_provinsi', 'id_akses', $id_akses, 'id_provinsi');
+                    $id_kabkot=GetDetailData($Conn, 'akses_kabupaten', 'id_akses', $id_akses, 'id_kabkot');
                     $nama=$Data['nama'];
                     $email=$Data['email'];
                     $kontak=$Data['kontak'];
@@ -69,6 +69,7 @@
                         "kontak" => $kontak,
                         "akses" => $akses,
                         "foto" => $foto,
+                        "url_foto" => $url_foto,
                         "timestamp_creat" => $timestamp_creat,
                     ];
                     $response = [

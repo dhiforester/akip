@@ -63,7 +63,7 @@
                         $telepon= $data['telepon'];
                         $alamat= $data['alamat'];
                         //Jumlah Akses
-                        $JumlahAkses = mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE id_kabkot='$id_kabkot' AND akses='OPD'"));
+                        $JumlahAkses = mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses_opd WHERE id_opd='$id_opd'"));
                         echo '
                             <tr>
                                 <td><small>'.$no.'</small></td>

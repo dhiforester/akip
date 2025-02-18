@@ -1037,10 +1037,11 @@ $(document).ready(function() {
                     let akses=response.data_detail.akses;
                     let timestamp_creat=response.data_detail.timestamp_creat;
                     let foto=response.data_detail.foto;
+                    let url_foto=response.data_detail.url_foto;
                     $('#FormDetailAkses').html(`
                         <div class="row mb-4">
                             <div class="col-12 text-center">
-                                <img src="assets/img/User/${foto}" alt="" width="200px" height="200px" class="rounded-circle">
+                                <img src="${url_foto}" alt="" width="200px" height="200px" class="rounded-circle">
                             </div>
                         </div>
                         <div class="row mb-2 mt-3">

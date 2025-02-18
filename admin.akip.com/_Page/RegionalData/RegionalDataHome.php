@@ -8,7 +8,7 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
                     echo '  Berikut ini adalah halaman pengelolaan referensi wilayah administratif provinsi.';
                     echo '  Masing-masing provinsi terdiri dari kabupaten/kota yang bisa anda kelola secara dinamis.';
                     echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';

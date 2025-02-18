@@ -58,9 +58,7 @@
                     ';
                 }else{
                     //Buka Data
-                    $id_provinsi=$Data['id_provinsi'];
-                    $id_kabkot=$Data['id_kabkot'];
-                    $id_opd=$Data['id_opd'];
+                    $id_opd=GetDetailData($Conn, 'akses_opd', 'id_akses', $id_akses, 'id_opd');
                     $nama=$Data['nama'];
                     $email=$Data['email'];
                     $kontak=$Data['kontak'];

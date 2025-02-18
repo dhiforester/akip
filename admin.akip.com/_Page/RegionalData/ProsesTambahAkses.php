@@ -134,17 +134,33 @@
     // Insert Data
     $akses="OPD";
     $password=password_hash($password, PASSWORD_DEFAULT);
-    $query_insert = "INSERT INTO akses (id_opd, id_provinsi, id_kabkot, nama, email, kontak, password, akses, foto, timestamp_creat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query_insert = "INSERT INTO akses (nama, email, kontak, password, akses, foto, timestamp_creat) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt_insert = $Conn->prepare($query_insert);
 
     if ($stmt_insert) {
-        $stmt_insert->bind_param("iiisssssss", $id_opd, $id_provinsi, $id_kabkot, $nama, $email, $kontak, $password, $akses, $foto, $now);
+        $stmt_insert->bind_param("sssssss", $nama, $email, $kontak, $password, $akses, $foto, $now);
         if ($stmt_insert->execute()) {
-            $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Tambah Akses');
-            if($SimpanLog=="Success"){
-                echo json_encode(["status" => "Success", "message" => "Tambah Akses Berhasil!"]);
+
+            //Jika Berhasil Buka id_akses
+            $id_akses=GetDetailData($Conn, 'akses', 'email', $email, 'id_akses');
+
+            //Simpan Data akses_opd
+            $query_insert_opd = "INSERT INTO akses_opd (id_akses, id_opd) VALUES (?, ?)";
+            $stmt_insert_opd = $Conn->prepare($query_insert_opd);
+            if ($stmt_insert_opd) {
+                $stmt_insert_opd->bind_param("ii", $id_akses, $id_opd);
+                if ($stmt_insert_opd->execute()) {
+                    $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Tambah Akses');
+                    if($SimpanLog=="Success"){
+                        echo json_encode(["status" => "Success", "message" => "Tambah Akses Berhasil!"]);
+                    }else{
+                        echo json_encode(["status" => "Error", "message" => "Terjadi Kesalahan Pada Saat Menyimpan Log"]);
+                    }
+                }else{
+                    echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat input ke database akses opd"]);
+                }
             }else{
-                echo json_encode(["status" => "Error", "message" => "Terjadi Kesalahan Pada Saat Menyimpan Log"]);
+                echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat mempersiapkan statement database akses OPD"]);
             }
         } else {
             echo json_encode(["status" => "Error", "message" => "Terjadi kesalahan saat input ke database"]);

@@ -82,7 +82,7 @@
                         //Jumlah OPD
                         $JumlahOpd = mysqli_num_rows(mysqli_query($Conn, "SELECT id_opd FROM opd WHERE id_kabkot='$id_kabkot'"));
                         //Jumlah Akun
-                        $JumlahAkses = mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE id_kabkot='$id_kabkot' AND akses='OPD'"));
+                        $JumlahAkses = mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses_kabupaten WHERE id_kabkot='$id_kabkot'"));
                         echo '
                             <tr>
                                 <td><small>'.$no.'</small></td>
