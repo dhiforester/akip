@@ -1,7 +1,7 @@
 <?php
     //koneksi dan session
     include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
+    include "../../_Config/Function.php";
     include "../../_Config/Session.php";
     if(empty($SessionIdAkses)){
         echo '<div class="row">';

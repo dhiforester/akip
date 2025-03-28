@@ -11,4 +11,5 @@
     $favicon= $DataSettingGeneral['favicon'];
     $logo= $DataSettingGeneral['logo'];
     $base_url= $DataSettingGeneral['base_url'];
+    $author= $DataSettingGeneral['author'];
 ?>

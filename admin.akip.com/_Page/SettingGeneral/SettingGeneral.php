@@ -175,6 +175,19 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
+                                    <label for="author">Author</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="inputGroupPrepend">
+                                            <i class="bi bi-globe"></i>
+                                        </span>
+                                        <input type="text" name="author" id="author" class="form-control" value="<?php echo "$author"; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
                                 </div>
                                 <div class="col-md-9 text-right">
                                     <small class="text-dark">Pastikan pengaturan yang anda gunakan sudah sesuai.</small>

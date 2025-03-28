@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="credits">
                                     <small>
-                                        <span class="text-light">Designed by</span> <span class="text-warning"><b>PT.KARYA DIGITAL ADVERTISA</b></span>
+                                        <span class="text-light">Designed by</span> <span class="text-warning"><b><?php echo "$author"; ?></b></span>
                                     </small>
                                 </div>
                             </div>

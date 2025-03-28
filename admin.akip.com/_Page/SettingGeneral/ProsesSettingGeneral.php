@@ -1,7 +1,7 @@
 <?php
     // Koneksi
     include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
+    include "../../_Config/Function.php";
     include "../../_Config/Session.php";
     date_default_timezone_set('Asia/Jakarta');
 
@@ -80,6 +80,8 @@
                 $response['message'] = 'Nomor kontak perusahaan tidak boleh kosong!';
             } else if(empty($_POST['base_url'])){
                 $response['message'] = 'Base URL tidak boleh kosong!';
+            } else if(empty($_POST['author'])){
+                $response['message'] = 'Nama author tidak boleh kosong!';
             } else {
                 // Simpan data
                 $title_page = $_POST['title_page'];
@@ -89,6 +91,7 @@
                 $email_bisnis = $_POST['email_bisnis'];
                 $telepon_bisnis = $_POST['telepon_bisnis'];
                 $base_url = $_POST['base_url'];
+                $author = $_POST['author'];
                 //Bersihkan Variabel
                 $title_page = validateAndSanitizeInput($title_page);
                 $kata_kunci = validateAndSanitizeInput($kata_kunci);
@@ -97,6 +100,7 @@
                 $email_bisnis = validateAndSanitizeInput($email_bisnis);
                 $telepon_bisnis = validateAndSanitizeInput($telepon_bisnis);
                 $base_url = validateAndSanitizeInput($base_url);
+                $author = validateAndSanitizeInput($author);
                 // Update setting_general
                 $UpdateSetting = mysqli_query($Conn, "UPDATE setting_general SET 
                     title_page='$title_page',
@@ -105,7 +109,8 @@
                     alamat_bisnis='$alamat_bisnis',
                     email_bisnis='$email_bisnis',
                     telepon_bisnis='$telepon_bisnis',
-                    base_url='$base_url'
+                    base_url='$base_url',
+                    author='$author'
                 WHERE id_setting_general='1'");
                 
                 if($UpdateSetting){
